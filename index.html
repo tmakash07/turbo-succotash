@@ -195,7 +195,6 @@ async function doCreateExam(e){
   const difficulty=$("examDifficulty").value;
   const duration_minutes=parseInt($("examDuration").value,10)||30;
   const total_marks=parseInt($("examMarks").value,10)||100;
-  const marks=total_marks;
   const negative_mark=parseFloat($("examNegMark").value)||0;
   const published=$("examPublished").checked;
 
@@ -206,7 +205,6 @@ async function doCreateExam(e){
     difficulty,
     duration_minutes,
     total_marks,
-    marks,
     negative_mark,
     published,
     created_by: user.id
