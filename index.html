@@ -63,9 +63,20 @@ function configured(){return !!sb}
 async function boot(){
   if(!configured()){render();return}
   const {data}=await sb.auth.getSession(); user=data.session?.user||null;
-  if(user) await loadProfile();
-  sb.auth.onAuthStateChange(async(_e,session)=>{user=session?.user||null;if(user)await loadProfile();else profile=null;render()});
-  await loadData(); render();
+  if(user){ await loadProfile(); await loadData(); }
+  sb.auth.onAuthStateChange(async(_e,session)=>{
+    user=session?.user||null;
+    if(user){
+      await loadProfile();
+      await loadData();
+    } else {
+      profile=null;
+      exams=[];
+      attempts=[];
+    }
+    render();
+  });
+  render();
 }
 async function loadProfile(){
   const {data,error}=await sb.from("profiles").select("*").eq("id",user.id).maybeSingle();
